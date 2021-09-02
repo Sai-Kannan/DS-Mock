@@ -1,0 +1,179 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct dll
+{
+	struct dll *prev;
+	int data;
+	struct dll *next;
+}node;
+node *first =NULL;
+node *last=NULL;
+void create(int ele)
+{
+	node *ptr=(node*)malloc(sizeof(node));
+	ptr->data=ele;
+	ptr->next=NULL;
+	ptr->prev=NULL;
+	if(first==NULL)
+	{
+		first=ptr;
+		last=ptr;
+	}
+	else
+	{
+		ptr->prev=last;
+		last->next=ptr;
+		last=ptr;
+	}
+}
+void display()
+{
+	node *temp=first;
+	
+	while(temp!=NULL)
+	{
+		printf("%d ",temp->data);
+		temp=temp->next;
+	}
+	free(temp);
+	
+}
+void swap()
+{
+	node *temp=first;
+	node *dump=temp->next;
+	if(temp->data > dump->data)
+	{
+	int tem=temp->data;
+	temp->data=dump->data;
+	dump->data=tem;
+     }
+     free(temp);
+     free(dump);
+}
+void sorting()
+{
+	node *temp=first,*k;
+	while(temp!=NULL)
+	{                      
+		k=temp->next;
+		while(k!=NULL)
+		{
+			if(temp->data > k->data)
+			{
+				int ex=temp->data;
+				temp->data=k->data;
+				k->data=ex;
+			}
+			k=k->next;
+		}
+		temp=temp->next;
+	}
+	free(temp);
+}
+/*
+void search(int key,int n,int j[])
+{
+	node *temp=first;
+	n=n/2;
+	printf("%d",n);
+	if (key==j[n/2])
+    printf("key is found at %d location",n);
+    else if(key<j[n/2])
+    for(int i=0;i<n/2;i++)
+    {
+    	if(key==j[i]);
+    	 printf("key is found at %d location",i);
+    	 break;
+	}
+	 else if(key>j[n/2])
+    for(int i=n/2;i<n;i++)
+    {
+    	if(key==j[i]);
+    	 printf("key is found at %d location",i);
+    	 break;
+	}
+	else
+	printf("key not found");
+}*/
+void search (int key,int n)
+{
+	node *temp=first,*dump=first;
+	int find=1,i=1;
+	n=n/2;
+	while(temp!=NULL)
+	{
+		if(find==n/2)
+		{
+			if(key==temp->data)
+			{
+			   printf("key is found\n at %d",find);
+			   break;
+		    }
+		     else if(key<temp->data)
+             while(dump!=NULL)
+    	 		{
+    	 			if(key==dump->data)
+				    {
+					  printf("key is found at %d location",i);
+    	 		      break;
+    	 		    }
+    	 		    dump=dump->next;
+    	 		    i++;
+			    }
+	    }
+		find++;
+		temp=temp->next;
+		
+    }
+    free(temp);
+    free(dump);
+}
+int main()
+{
+	int n,j[100];
+	printf("enter some elements for double linked list : \n");
+	printf("enter no.of elements\n");
+	scanf("%d",&n);
+	for(int i=0;i<n;i++)
+	{
+	    scanf("%d",&j[i]);
+    }
+    for(int i=0;i<n;i++)
+	{
+	    create(j[i]);
+    }
+    
+	display();
+    int a,x;
+     for(int i=0;i<n;i++)
+	{
+	    if(i==(n/2-1))
+	    a=j[i];
+    }
+    if(n<2)
+    goto me;
+    if(n==2)
+    {
+    	swap();
+    	printf("\n");
+    	display();
+    	goto me;
+	}
+    if(n>2)
+    {
+       if(a>0)
+       sorting();
+        printf("\n");
+       display();
+       goto me;
+    }
+    else
+    {
+    	return 0;
+    }
+    me : printf("enter any element X to search\n");
+    scanf("%d",&x);
+    search(x,n);
+	
+}
